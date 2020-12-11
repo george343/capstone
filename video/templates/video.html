@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}{{ video.title }}{% endblock %}
+
+{% block content %}
+<div id="video">
+  <div class="container-fluid">
+    <div id="video-header">
+      <h1>{{ video.title }}</h1>
+    </div>
+    <div class="row">
+      <div class="col-md-9">
+        <p class="aspect-ratio">
+          <iframe width="550" height="315" frameborder="0" src={{ video.url }}></iframe><br />
+        </p>
+        Uploaded by: {{ video.user_upload }}<br />
+        <form method="post">{% csrf_token %}
+          <button class="btn btn-primary" id="like-btn" type="submit" name="like">
+            Likes {{ video.liked.count }}
+          </button>
+        </form>
+      </div>
+      <div class="col-md-3" id="side_videos">
+        <h4>More Videos like this</h4>
+        {% for video in videos %}
+        <a href="/video/{{ video.id }}"><img width="100%" src="{{ video.picture }}" /></a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  {% if user != video.user_upload %}
+  <h5 style="margin-top: 20px">Place your comment:</h5>
+  <form method="POST">
+    {% csrf_token %}
+    <textarea class="form-control" required name="comment" id="comment"></textarea><br />
+    <input class="btn btn-primary" type="submit" name="comment-btn" />
+  </form>
+  {% endif %}
+  <h3 style="margin-top: 20px">Comments:</h3>
+  <ul id="ls_comments">
+    {% for comment in comments %}
+    <li class="comment">
+      <h5>{{ comment.comment }}</h5>
+      {{ comment.commentor }}
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% load static %}
+
+
+{% block title %}All videos{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<div class="container-fluid">
+    <div class="row">
+        <div id="cars">
+            <h3 class="video-h3">
+                <a class="categories-links" href={% url 'show_category' category="cars" %}>Cars</a>
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div id="games">
+            <h3 class="video-h3">
+                <a class="categories-links" href={% url 'show_category' category="games" %}>Games</a>
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div id="programming">
+            <h3 class="video-h3">
+                <a class="categories-links" href={% url 'show_category' category="programming" %}>Programming</a>
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div id="tech">
+            <h3 class="video-h3">
+                <a class="categories-links" href={% url 'show_category' category="tech" %}>Tech</a>
+            </h3>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

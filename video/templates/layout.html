@@ -1,0 +1,63 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="{% static 'styles.css' %}" rel="stylesheet">
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">Video Library</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li {% if page == 'home' %}class="nav-item active" {% else %}class="nav-item" {% endif %}>
+            <a class="nav-link" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
+          </li>
+          {% if user.is_authenticated %}
+          <li {% if page == 'all' %}class="nav-item active" {% else %}class="nav-item" {% endif %}>
+            <a class="nav-link" href="{% url 'show_all' %}">All videos</a>
+          </li>
+          <li {% if page == 'profile' %}class="nav-item active" {% else %}class="nav-item" {% endif %}>
+            <a class="nav-link" href="{% url 'show_profile' user %}">My profile</a>
+          </li>
+          {% endif %}
+        </ul>
+        {% if user.is_authenticated %}
+        <div class="my-2 my-lg-0" style="color: white;">
+          <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+        </div>
+        {% else %}
+        <div class="my-2 my-lg-0" style="color: white;">
+          <a href="{% url 'login' %}" class="btn btn-success">Login</a>
+        </div>
+        {% endif %}
+      </div>
+    </nav>
+    {% if search %}
+    <div class="jumbotron">
+      <form action='results' method="POST" class="input-group md-form form-sm form-2 pl-0">{% csrf_token %}
+        <input class=" form-control my-0 py-1" id="search-txt" type="text" placeholder="Search" aria-label="Search"
+          style="background-color:black;" />
+        <div class="input-group-append" onclick="searchVideos(document.querySelector('#search-txt').value)">
+          <span class="input-group-text light lighten-3" id="basic-text1"><i class="fa fa-search text-black"
+              aria-hidden="true"></i></span>
+        </div>
+      </form>
+    </div>
+    {% endif %}
+    {% block content %}{% endblock %}
+    <script type="text/Javascript" src="{% static 'main.js' %}"></script>
+  </body>
+
+</html>

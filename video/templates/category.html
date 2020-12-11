@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}{{ category }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h2 style="margin:15px;">Category: {{ category }}</h2>
+    {% for video in videos %}
+    <div class="videos">
+        <a href="/video/{{ video.id }}"><img width="400" height="230" src="{{ video.picture }}" /></a>
+        <p class="video"><a href="/video/{{ video.id }}" class="pre-video">{{ video.title }}</a></p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
