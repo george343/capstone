@@ -22,11 +22,10 @@ function showVideos() {
         }
         elem.innerHTML += `
         <div class="videos">
-        <a href=${data[i].url}><img width="400" height="230" src=${data[i].picture}></a>
+        <a href=/video/${data[i].id}><img width="400" height="230" src=${data[i].picture}></a>
         <p class="video"><a href="video/${data[i].id}" class="pre-video">${data[i].title}</a></p>
         </div>`;
       }
-      // TODO: Fix the thubnails
     });
 }
 
@@ -53,5 +52,8 @@ const csrftoken = (name) => {
 function searchVideos(text) {
   fetch("/videos")
     .then((response) => response.json())
-    .then((data) => {});
+    .then((data) => {
+      data.filter(video => video.title.toLowerCase().includes(text.toLowerCase()))
+      window.location.href=`/results/${text}`
+    });
 }

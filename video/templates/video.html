@@ -31,14 +31,12 @@
   </div>
 </div>
 <div class="container-fluid">
-  {% if user != video.user_upload %}
   <h5 style="margin-top: 20px">Place your comment:</h5>
   <form method="POST">
     {% csrf_token %}
     <textarea class="form-control" required name="comment" id="comment"></textarea><br />
     <input class="btn btn-primary" type="submit" name="comment-btn" />
   </form>
-  {% endif %}
   <h3 style="margin-top: 20px">Comments:</h3>
   <ul id="ls_comments">
     {% for comment in comments %}

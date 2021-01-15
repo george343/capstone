@@ -1,17 +1,14 @@
+import json
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
+from django.db import IntegrityError
 from django.shortcuts import render, HttpResponseRedirect, HttpResponse
 from django.urls import reverse
-from django.contrib.auth import login, logout, authenticate
-from django.db import IntegrityError
-from .models import User, Video, Comment
-from django.http import JsonResponse
-from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
-import json
-from .serializers import *
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, renderer_classes
 
-# Create your views here.
+from .serializers import *
 
 
 def index(request):
@@ -29,7 +26,6 @@ def login_view(request):
             return HttpResponseRedirect(reverse("index"))
         else:
             return render(request, "login.html", {"message": "Invalid username and/or password!"})
-        return HttpResponseRedirect(reverse("login"))
     else:
         return render(request, "login.html")
 
@@ -141,18 +137,16 @@ def show_video(request, id):
 
 @api_view(('PUT', 'GET'))
 @login_required
-def like_video(request, id):
-    video = Video.objects.get(pk=id)
+def like_video(request, v_id):
+    video = Video.objects.get(pk=v_id)
     if request.method == 'PUT':
         data = json.loads(request.body)
         video.liked.add(User)
         video.save()
-        print(User)
         return HttpResponse(status=200)
     return HttpResponse(status=201)
 
 
 def search_results(request, text):
-    search = True
     videos = Video.objects.filter(title__contains=text)
-    return render(request, "results.html", {"videos": videos, "text": text, "search": search})
+    return render(request, "results.html", {"videos": videos, "text": text, "search": True})
