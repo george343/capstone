@@ -1,7 +1,7 @@
 #1. Why you believe your project satisfies the distinctiveness and complexity requirements, mentioned above.
 
 My program uses django for the backend with a few javascript functions and 2 models.
-It is a (not very beautiful) copy of Youtube.
+It is a (not very beautiful) clone of Youtube.
 
 #2. What’s contained in each file you created.
 
