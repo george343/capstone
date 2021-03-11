@@ -56,10 +56,10 @@ def register(request):
         return render(request, "register.html")
 
 
-@login_required()
-def all(request):
-    videos = Video.objects.all()
-    return render(request, "index.html", {"videos": videos})
+# @login_required()
+# def all(request):
+#     videos = Video.objects.all()
+#     return render(request, "index.html", {"videos": videos})
 
 
 @api_view(('GET', 'POST'))
